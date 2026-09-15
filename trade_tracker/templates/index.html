@@ -3,48 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRADE FLOW | Logistics Management Platform</title>
-    <!-- Pretendard & Plus Jakarta Sans -->
+    <title>TRADE FLOW | Korea Shipping Logistics Platform</title>
+    <!-- Pretendard & Montserrat 볼드 헤드라인 폰트 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
     <style>
         :root {
-            --bg-lavender: #f7f6fd;
-            --surface-white: #ffffff;
-            --primary-purple: #7451eb;
-            --primary-hover: #603ce0;
-            --purple-light: #efeaff;
-            --purple-subtle: #fbfaff;
-            --border-lavender: #e7e2f9;
-            --border-card: rgba(116, 81, 235, 0.08);
-            --text-heading: #1b1928;
-            --text-body: #5b5870;
-            --text-muted: #9592ad;
-            --radius-card: 22px;
-            --radius-btn: 14px;
+            /* 대한해운(Korea Shipping) 공식 엔터프라이즈 팔레트 */
+            --ocean-dark: #001e38;
+            --ocean-blue: #004b87;
+            --ocean-bright: #0072ce;
+            --ocean-light: #f0f7fd;
+            --korea-red: #e62b3a;
+            --korea-red-hover: #c91f2d;
+            --bg-page: #f8fafc;
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --border-subtle: #e2e8f0;
+            --radius-box: 16px;
+            --font-display: 'Montserrat', sans-serif;
             --sidebar-width: 260px;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-lavender);
+            background-color: var(--bg-page);
             font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-heading);
-            letter-spacing: -0.025em;
+            color: var(--text-body);
+            letter-spacing: -0.02em;
             margin: 0;
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        .eng-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .display-font { font-family: var(--font-display); }
 
-        /* 사이드바 */
+        /* 좌측 사이드바 (해운사 네이비 톤) */
         .sidebar-wrapper {
             position: relative;
             display: flex;
@@ -56,10 +57,10 @@
             min-width: 200px;
             max-width: 400px;
             background: #ffffff;
-            border-right: 1px solid var(--border-lavender);
+            border-right: 1px solid var(--border-subtle);
             display: flex;
             flex-direction: column;
-            padding: 26px 18px;
+            padding: 22px 16px;
             overflow-y: auto;
         }
         .sidebar.collapsed { display: none !important; }
@@ -72,61 +73,69 @@
             right: 0; top: 0; bottom: 0;
             z-index: 10;
         }
-        .sidebar-resizer:hover, .sidebar-resizer.resizing { background: var(--primary-purple); }
+        .sidebar-resizer:hover, .sidebar-resizer.resizing { background: var(--ocean-bright); }
 
-        .brand-logo {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--text-heading);
+        /* 브랜드 로고 (대한해운 스타일) */
+        .brand-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 0 4px 22px;
-            letter-spacing: -0.04em;
+            gap: 8px;
+            padding: 2px 6px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 14px;
         }
-        .brand-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary-purple);
-            box-shadow: 0 0 12px var(--primary-purple);
+        .brand-badge {
+            background: var(--korea-red);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: var(--font-display);
+        }
+        .brand-title {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--ocean-dark);
+            font-family: var(--font-display);
+            letter-spacing: -0.03em;
         }
 
         .nav-label {
             font-size: 0.68rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            padding: 14px 10px 6px;
+            padding: 12px 8px 6px;
         }
 
         .menu-list {
             list-style: none;
             padding: 0; margin: 0;
-            display: flex; flex-direction: column; gap: 4px;
+            display: flex; flex-direction: column; gap: 3px;
         }
         .menu-item a {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
+            gap: 10px;
+            padding: 9px 12px;
             color: var(--text-body);
             text-decoration: none;
-            border-radius: var(--radius-btn);
+            border-radius: 8px;
             font-size: 0.88rem;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             cursor: pointer;
             white-space: nowrap;
         }
         .menu-item a:hover {
-            color: var(--primary-purple);
-            background: var(--purple-subtle);
+            background: var(--ocean-light);
+            color: var(--ocean-blue);
         }
         .menu-item a.active {
-            color: var(--primary-purple);
-            background: var(--purple-light);
+            background: var(--ocean-dark);
+            color: #ffffff;
             font-weight: 700;
         }
 
@@ -139,11 +148,11 @@
             min-width: 0;
         }
 
-        /* 상단 고정 헤더 & 시계 바 */
-        .top-clock-bar {
+        /* 상단 GNB 바 */
+        .top-navbar {
             background: #ffffff;
-            border-bottom: 1px solid var(--border-lavender);
-            padding: 12px 32px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -152,243 +161,262 @@
         .clock-chips-wrap {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
         }
         .clock-chip {
-            background: var(--purple-subtle);
-            border: 1px solid var(--border-lavender);
-            padding: 6px 16px;
-            border-radius: 100px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 5px 12px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.82rem;
+            gap: 8px;
+            font-size: 0.78rem;
             white-space: nowrap;
         }
-        .clock-chip .nation { color: var(--text-body); font-weight: 600; }
-        .clock-chip .clock-time { color: var(--primary-purple); font-weight: 800; font-variant-numeric: tabular-nums; }
+        .clock-chip .nation { color: var(--text-muted); font-weight: 600; }
+        .clock-chip .clock-time { color: var(--ocean-dark); font-weight: 800; font-variant-numeric: tabular-nums; }
+
+        /* 대한해운 히어로 섹션 (상단 웅장한 비주얼) */
+        .ocean-hero-banner {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 30, 56, 0.85) 0%, rgba(0, 75, 135, 0.7) 100%), 
+                        url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: #ffffff;
+            padding: 44px 36px 36px;
+            border-radius: 0 0 24px 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 30px rgba(0, 30, 56, 0.15);
+        }
+        .hero-tag {
+            background: var(--korea-red);
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            font-family: var(--font-display);
+        }
+        .hero-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        /* 퀵 메트릭 바 (히어로 내 오버레이) */
+        .hero-metric-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+        .hero-metric-item {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 14px 18px;
+        }
+        .hero-metric-label { font-size: 0.72rem; color: #cbd5e1; font-weight: 700; text-transform: uppercase; }
+        .hero-metric-val { font-size: 1.35rem; font-weight: 800; color: #ffffff; font-variant-numeric: tabular-nums; }
 
         .content-container {
-            padding: 32px 36px;
+            padding: 0 32px 36px;
         }
 
-        /* 환율 카드 */
-        .rate-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 28px;
-        }
-        .rate-card {
-            background: #ffffff;
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-card);
-            padding: 22px 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 18px rgba(116, 81, 235, 0.02);
-        }
-        .rate-card:hover {
-            transform: translateY(-2px);
-            border-color: #cbbeff;
-            box-shadow: 0 8px 25px rgba(116, 81, 235, 0.07);
-        }
-        .rate-top {
+        /* 리마인더 & 모니터링 카드 */
+        .section-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
-        .rate-cur-name {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            font-weight: 700;
-            letter-spacing: 0.04em;
-        }
-        .rate-val-num {
-            font-size: 1.6rem;
+        .section-header-title {
+            font-size: 1.15rem;
             font-weight: 800;
             color: var(--text-heading);
-            letter-spacing: -0.03em;
-            font-variant-numeric: tabular-nums;
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
         }
-        .rate-val-num span { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); margin-left: 2px; }
 
-        /* 리마인더 */
         .reminder-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 18px;
-            margin-bottom: 30px;
+            gap: 16px;
+            margin-bottom: 28px;
         }
         .reminder-box {
             background: #ffffff;
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-card);
-            padding: 24px 26px;
-            box-shadow: 0 4px 18px rgba(116, 81, 235, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-box);
+            padding: 20px 22px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
         }
         .reminder-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px dashed var(--border-lavender);
+            border-bottom: 1px solid var(--border-subtle);
             font-size: 0.88rem;
         }
         .reminder-row:last-child { border-bottom: none; }
 
-        /* 카드형 선적 블록 */
+        /* 선적 카드 슬랩 (대한해운 클린 스타일) */
         .shipment-slab {
             background: #ffffff;
-            border: 1px solid var(--border-card);
-            border-radius: 20px;
-            padding: 20px 24px;
-            margin-bottom: 14px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 20px;
-            box-shadow: 0 2px 14px rgba(116, 81, 235, 0.02);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
             transition: all 0.2s ease;
         }
         .shipment-slab:hover {
-            transform: translateY(-2px);
-            border-color: #cbbeff;
-            box-shadow: 0 8px 24px rgba(116, 81, 235, 0.06);
+            border-color: var(--ocean-bright);
+            box-shadow: 0 6px 18px rgba(0, 75, 135, 0.08);
+            transform: translateY(-1px);
         }
         .shipment-slab.completed {
-            background: #fafafc;
+            background: #f8fafc;
             border-style: dashed;
         }
 
-        .carrier-tag {
-            background: var(--purple-light);
-            color: var(--primary-purple);
-            padding: 6px 12px;
-            border-radius: 8px;
+        .carrier-badge {
+            background: var(--ocean-light);
+            border: 1px solid #c8e1fa;
+            color: var(--ocean-blue);
+            padding: 5px 12px;
+            border-radius: 6px;
             font-size: 0.78rem;
-            font-weight: 700;
-            text-decoration: none;
+            font-weight: 800;
             display: inline-block;
         }
 
-        /* 서류 칩 */
         .doc-chip {
-            padding: 6px 12px;
-            border-radius: 10px;
+            padding: 5px 10px;
+            border-radius: 6px;
             font-size: 0.76rem;
             font-weight: 700;
             cursor: pointer;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            text-decoration: none;
             transition: all 0.15s ease;
         }
-        .doc-chip.done { background: #eafaf1; color: #10b981; }
-        .doc-chip.pending { background: #fff1f2; color: #f43f5e; }
-        .doc-chip:hover { transform: scale(1.03); }
+        .doc-chip.done { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .doc-chip.pending { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .doc-chip:hover { opacity: 0.85; transform: scale(1.02); }
 
-        .btn-lavender-brand {
-            background: var(--primary-purple);
+        /* 버튼 */
+        .btn-ocean-red {
+            background: var(--korea-red);
             color: #ffffff;
             border: none;
-            padding: 9px 22px;
-            border-radius: 12px;
+            padding: 9px 20px;
+            border-radius: 8px;
             font-size: 0.88rem;
             font-weight: 700;
-            box-shadow: 0 4px 14px rgba(116, 81, 235, 0.25);
-            transition: all 0.2s ease;
+            transition: background 0.15s;
             white-space: nowrap;
         }
-        .btn-lavender-brand:hover {
-            background: var(--primary-hover);
-            color: #ffffff;
-            transform: translateY(-1px);
-        }
+        .btn-ocean-red:hover { background: var(--korea-red-hover); color: #ffffff; }
 
-        .news-card-slab {
+        /* 대한해운 스타일 Public Relations 뉴스 리스트 */
+        .pr-news-slab {
             background: #ffffff;
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-card);
-            padding: 24px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-box);
+            padding: 22px 26px;
+            margin-bottom: 12px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
-            height: 100%;
             text-decoration: none;
             color: inherit;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 18px rgba(116, 81, 235, 0.02);
+            transition: all 0.2s ease;
         }
-        .news-card-slab:hover {
-            transform: translateY(-3px);
-            border-color: #cbbeff;
-            box-shadow: 0 10px 28px rgba(116, 81, 235, 0.08);
+        .pr-news-slab:hover {
+            border-color: var(--ocean-bright);
+            box-shadow: 0 4px 16px rgba(0, 75, 135, 0.08);
             color: inherit;
+            transform: translateY(-2px);
+        }
+        .news-badge-red {
+            background: var(--korea-red);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: var(--font-display);
+            margin-right: 12px;
         }
 
+        /* 챗봇 플로팅 */
         #chat-btn {
             position: fixed; bottom: 26px; right: 26px;
-            width: 58px; height: 58px; border-radius: 50%;
-            background: var(--primary-purple);
-            border: none; color: white;
-            box-shadow: 0 8px 24px rgba(116, 81, 235, 0.35);
+            width: 54px; height: 54px; border-radius: 50%;
+            background: var(--ocean-dark);
+            border: 2px solid #ffffff; color: white;
+            box-shadow: 0 6px 20px rgba(0, 30, 56, 0.4);
             display: flex; align-items: center; justify-content: center;
-            font-size: 22px; cursor: pointer; z-index: 1000;
-            transition: transform 0.2s;
+            font-size: 20px; cursor: pointer; z-index: 1000;
         }
-        #chat-btn:hover { transform: scale(1.05); }
-
         #chat-window {
-            position: fixed; bottom: 95px; right: 26px;
-            width: 370px; height: 500px; z-index: 1000;
-            display: none; flex-direction: column; border-radius: 24px;
-            background: #ffffff; border: 1px solid var(--border-lavender);
-            box-shadow: 0 20px 40px rgba(116, 81, 235, 0.12);
+            position: fixed; bottom: 90px; right: 26px;
+            width: 360px; height: 490px; z-index: 1000;
+            display: none; flex-direction: column; border-radius: 16px;
+            background: #ffffff; border: 1px solid var(--ocean-blue);
+            box-shadow: 0 15px 35px rgba(0, 30, 56, 0.2);
             overflow: hidden;
         }
         .chat-head {
-            background: var(--primary-purple);
-            color: white; padding: 16px 20px;
+            background: var(--ocean-dark);
+            color: white; padding: 14px 18px;
             display: flex; justify-content: space-between; align-items: center;
         }
         #chat-body {
-            flex: 1; overflow-y: auto; padding: 18px;
-            background: var(--purple-subtle); display: flex; flex-direction: column; gap: 10px;
+            flex: 1; overflow-y: auto; padding: 16px;
+            background: var(--bg-page); display: flex; flex-direction: column; gap: 8px;
         }
         .bot-bubble {
-            background: white; border: 1px solid var(--border-lavender);
-            border-radius: 16px 16px 16px 4px; padding: 10px 14px; font-size: 13.5px; max-width: 85%;
+            background: white; border: 1px solid var(--border-subtle);
+            border-radius: 8px; padding: 9px 13px; font-size: 13px; max-width: 85%;
         }
         .user-bubble {
-            background: var(--primary-purple); color: white;
-            border-radius: 16px 16px 4px 16px; padding: 10px 14px; font-size: 13.5px; max-width: 85%; align-self: flex-end;
-        }
-
-        .text-truncate-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            background: var(--ocean-blue); color: white;
+            border-radius: 8px; padding: 9px 13px; font-size: 13px; max-width: 85%; align-self: flex-end;
         }
     </style>
 </head>
 <body>
 
-<!-- 사이드바 -->
+<!-- 좌측 사이드바 -->
 <div class="sidebar-wrapper">
     <aside class="sidebar" id="main-sidebar">
-        <div class="brand-logo">
-            <div class="brand-dot"></div>
-            <span class="eng-font">TRADE FLOW</span>
+        <div class="brand-header">
+            <span class="brand-badge">SM</span>
+            <span class="brand-title">TRADE FLOW</span>
         </div>
         
-        <div class="nav-label">Management</div>
+        <div class="nav-label">Overview</div>
         <ul class="menu-list">
             <li class="menu-item">
                 <a href="javascript:void(0)" class="active" id="menu-dashboard" onclick="switchView('dashboard')">
@@ -397,17 +425,17 @@
             </li>
             <li class="menu-item">
                 <a href="javascript:void(0)" id="menu-shippers" onclick="switchView('shippers')">
-                    <i class="bi bi-box-seam-fill"></i> 선적 관리
+                    <i class="bi bi-box-seam"></i> 선적 통합 관리
                 </a>
             </li>
             <li class="menu-item">
                 <a href="javascript:void(0)" id="menu-news" onclick="switchView('news')">
-                    <i class="bi bi-newspaper"></i> 무역 물류 뉴스룸
+                    <i class="bi bi-newspaper"></i> Public Relations (뉴스)
                 </a>
             </li>
         </ul>
 
-        <div class="nav-label">Carriers Hub</div>
+        <div class="nav-label mt-3">Carriers Hub</div>
         <ul class="menu-list">
             <li class="menu-item"><a href="https://www.hmm21.com/cms/company/korn/index.jsp" target="_blank"><i class="bi bi-water"></i> HMM Tracking</a></li>
             <li class="menu-item"><a href="https://www.maersk.com/tracking" target="_blank"><i class="bi bi-water"></i> Maersk Tracking</a></li>
@@ -416,15 +444,15 @@
             <li class="menu-item"><a href="https://ecomm.one-line.com/one-ecom/manage-shipment/cargo-tracking" target="_blank"><i class="bi bi-water"></i> ONE Tracking</a></li>
             <li class="menu-item"><a href="https://esvc.smlines.com/smline/cgo/tracking.do" target="_blank"><i class="bi bi-water"></i> SM Line Tracking</a></li>
             <li class="menu-item"><a href="https://ct.shipmentlink.com/servlet/TTrk_Tracking" target="_blank"><i class="bi bi-water"></i> Evergreen Tracking</a></li>
-            <li class="menu-item"><a href="https://cargo.koreanair.com" target="_blank"><i class="bi bi-airplane"></i> Korean Air Tracking</a></li>
-            <li class="menu-item"><a href="https://www.asianacargo.com" target="_blank"><i class="bi bi-airplane"></i> Asiana Airlines Tracking</a></li>
-            <li class="menu-item"><a href="https://www.brcargo.com" target="_blank"><i class="bi bi-airplane"></i> EVA Air Tracking</a></li>
-            <li class="menu-item"><a href="https://lufthansa-cargo.com" target="_blank"><i class="bi bi-airplane"></i> Lufthansa Tracking</a></li>
+            <li class="menu-item"><a href="https://cargo.koreanair.com" target="_blank"><i class="bi bi-airplane"></i> Korean Air Cargo</a></li>
+            <li class="menu-item"><a href="https://www.asianacargo.com" target="_blank"><i class="bi bi-airplane"></i> Asiana Cargo</a></li>
+            <li class="menu-item"><a href="https://www.brcargo.com" target="_blank"><i class="bi bi-airplane"></i> EVA Air Cargo</a></li>
+            <li class="menu-item"><a href="https://lufthansa-cargo.com" target="_blank"><i class="bi bi-airplane"></i> Lufthansa Cargo</a></li>
         </ul>
 
-        <div class="nav-label">Utility Tools</div>
+        <div class="nav-label mt-3">Utility Tools</div>
         <ul class="menu-list">
-            <li class="menu-item"><a href="javascript:void(0)" onclick="openCbmModal()"><i class="bi bi-boxes"></i> CLP 적재 시뮬레이터</a></li>
+            <li class="menu-item"><a href="javascript:void(0)" onclick="openCbmModal()"><i class="bi bi-calculator"></i> CLP 적재 시뮬레이터</a></li>
             <li class="menu-item"><a href="https://unipass.customs.go.kr/clip/index.do" target="_blank"><i class="bi bi-search"></i> HS CODE 정보조회</a></li>
             <li class="menu-item"><a href="https://unipass.customs.go.kr" target="_blank"><i class="bi bi-shield-check"></i> 관세청 유니패스</a></li>
         </ul>
@@ -432,24 +460,21 @@
     <div class="sidebar-resizer" id="sidebar-resizer"></div>
 </div>
 
-<!-- 메인 컨텐츠 영역 -->
+<!-- 메인 컨텐츠 뷰 -->
 <div class="main-wrapper">
-    <!-- 상단 바 -->
-    <div class="top-clock-bar">
+    <!-- 상단 GNB 바 -->
+    <div class="top-navbar">
         <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-sm btn-light border-0 p-1 px-2 rounded-3" onclick="toggleSidebar()" title="사이드바 토글">
+            <button class="btn btn-sm btn-light border p-1 px-2" onclick="toggleSidebar()" title="사이드바 토글">
                 <i class="bi bi-list fs-5"></i>
             </button>
             <div class="d-flex align-items-center gap-2">
-                <div class="brand-dot"></div>
-                <span class="eng-font fw-bold fs-5 text-dark" style="letter-spacing: -0.04em;">TRADE FLOW</span>
+                <span class="display-font fw-bold text-dark" style="letter-spacing: -0.02em;">KOREA SHIPPING OS</span>
+                <span class="badge bg-danger small">GLOBAL</span>
             </div>
         </div>
         
         <div class="d-flex align-items-center gap-2">
-            <span class="small fw-semibold text-muted me-1 d-none d-lg-inline-flex align-items-center">
-                <i class="bi bi-globe2 text-primary me-1"></i> Global Time
-            </span>
             <div class="clock-chips-wrap">
                 <div class="clock-chip"><span class="nation">서울 (KST)</span><span class="clock-time" id="clock-kr">--:--:--</span></div>
                 <div class="clock-chip"><span class="nation">뉴욕 (EST)</span><span class="clock-time" id="clock-us">--:--:--</span></div>
@@ -460,127 +485,114 @@
     </div>
 
     <!-- [화면 1] 대시보드 메인 -->
-    <div class="content-container view-section" id="view-dashboard">
-        <div class="mb-4">
-            <h3 class="fw-bold eng-font mb-1" style="letter-spacing: -0.03em;">Operations Dashboard</h3>
-            <p class="text-muted small">실시간 통화 환율 및 오늘 마감 Cut-Off 일정을 집중 모니터링합니다.</p>
-        </div>
-
-        <!-- 4대 통화 환율 카드 그리드 -->
-        <div class="rate-grid">
-            <div class="rate-card">
-                <div class="rate-top">
-                    <span class="rate-cur-name eng-font">USD / KRW</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 small">실시간</span>
+    <div class="view-section" id="view-dashboard">
+        <!-- 대한해운 공식 히어로 배너 -->
+        <div class="ocean-hero-banner">
+            <span class="hero-tag">SM GROUP SHIPPING</span>
+            <h1 class="hero-title">Global Total Logistics Company</h1>
+            <p class="hero-desc">세계 바다를 선도하는 글로벌 물류 플랫폼 | 실시간 선적 스케줄 & Cut-off 관제 센터</p>
+            
+            <!-- 실시간 환율 오버레이 바 -->
+            <div class="hero-metric-bar">
+                <div class="hero-metric-item">
+                    <div class="hero-metric-label">USD / KRW</div>
+                    <div class="hero-metric-val" id="rate-usd">1,348.50 원</div>
                 </div>
-                <div class="rate-val-num" id="rate-usd">1,348.50 <span>원</span></div>
-            </div>
-            <div class="rate-card">
-                <div class="rate-top">
-                    <span class="rate-cur-name eng-font">EUR / KRW</span>
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 small">실시간</span>
+                <div class="hero-metric-item">
+                    <div class="hero-metric-label">EUR / KRW</div>
+                    <div class="hero-metric-val" id="rate-eur">1,482.10 원</div>
                 </div>
-                <div class="rate-val-num" id="rate-eur">1,482.10 <span>원</span></div>
-            </div>
-            <div class="rate-card">
-                <div class="rate-top">
-                    <span class="rate-cur-name eng-font">CNY / KRW</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 small">실시간</span>
+                <div class="hero-metric-item">
+                    <div class="hero-metric-label">CNY / KRW</div>
+                    <div class="hero-metric-val" id="rate-cny">189.40 원</div>
                 </div>
-                <div class="rate-val-num" id="rate-cny">189.40 <span>원</span></div>
-            </div>
-            <div class="rate-card">
-                <div class="rate-top">
-                    <span class="rate-cur-name eng-font">JPY(100) / KRW</span>
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 small">실시간</span>
-                </div>
-                <div class="rate-val-num" id="rate-jpy">935.20 <span>원</span></div>
-            </div>
-        </div>
-
-        <!-- 긴급 리마인더 박스 -->
-        <div class="reminder-grid">
-            <div class="reminder-box">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="fw-bold text-danger"><i class="bi bi-clock-history me-2"></i>Cut-Off 임박 화물 (D-1)</span>
-                    <span class="badge rounded-pill bg-danger-subtle text-danger px-3 py-1" id="cutoff-alert-badge">1건 주의</span>
-                </div>
-                <div id="cutoff-reminder-list">
-                    <!-- 자바스크립트가 자동 동기화 -->
-                </div>
-            </div>
-
-            <div class="reminder-box">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="fw-bold text-dark"><i class="bi bi-file-earmark-x me-2 text-warning"></i>선적 서류 미비 화물</span>
-                    <span class="badge rounded-pill bg-warning-subtle text-warning px-3 py-1" id="doc-alert-badge">1건 미완료</span>
-                </div>
-                <div id="doc-reminder-list">
-                    <!-- 자바스크립트가 자동 동기화 -->
+                <div class="hero-metric-item">
+                    <div class="hero-metric-label">JPY(100) / KRW</div>
+                    <div class="hero-metric-val" id="rate-jpy">935.20 원</div>
                 </div>
             </div>
         </div>
 
-        <!-- 선적 현황 리스트 (모니터링 뷰) -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">선적 B/L 종합 관제 현황</h5>
-            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="switchView('shippers')">
-                선적 관리에서 데이터 수정/추가 →
-            </button>
-        </div>
-        <div id="dashboard-shipment-list">
-            <!-- 동기화 렌더링 -->
-        </div>
+        <div class="content-container">
+            <!-- 긴급 리마인더 섹션 -->
+            <div class="reminder-grid">
+                <div class="reminder-box">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-bold text-danger display-font"><i class="bi bi-clock-history me-1"></i> Cut-Off 마감 임박 화물 (D-1)</span>
+                        <span class="badge bg-danger" id="cutoff-alert-badge">1건 주의</span>
+                    </div>
+                    <div id="cutoff-reminder-list"></div>
+                </div>
 
-        <!-- 실시간 뉴스 피드 -->
-        <div class="mt-5">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0">Market Intelligence & News</h5>
-                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="fetchLiveNews('all')">
-                    <i class="bi bi-arrow-repeat me-1"></i>새로고침
+                <div class="reminder-box">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-bold text-dark display-font"><i class="bi bi-file-earmark-x me-1 text-danger"></i> 선적 필수 서류 미비 화물</span>
+                        <span class="badge bg-warning text-dark" id="doc-alert-badge">1건 미완료</span>
+                    </div>
+                    <div id="doc-reminder-list"></div>
+                </div>
+            </div>
+
+            <!-- 선적 종합 관제 리스트 -->
+            <div class="section-header-row">
+                <span class="section-header-title">Shipment Operations Monitor</span>
+                <button class="btn btn-sm btn-outline-dark px-3 fw-bold" onclick="switchView('shippers')">
+                    선적 관리에서 전체 편집 →
                 </button>
             </div>
-            <div class="row g-3" id="main-live-news-container">
-                <div class="col-12 text-center py-4 text-muted">
-                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div> 최신 뉴스를 불러오고 있습니다...
+            <div id="dashboard-shipment-list"></div>
+
+            <!-- 대한해운 PR 뉴스룸 섹션 -->
+            <div class="mt-5">
+                <div class="section-header-row">
+                    <div>
+                        <span class="section-header-title">Public Relations</span>
+                        <span class="text-muted small ms-2">실시간 해운·물류 언론 보도자료</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary px-3" onclick="fetchLiveNews('all')">
+                        <i class="bi bi-arrow-repeat me-1"></i>기사 새로고침
+                    </button>
+                </div>
+                <div id="main-live-news-container">
+                    <div class="text-center py-4 text-muted small">최신 뉴스를 불러오고 있습니다...</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- [화면 2] 선적 관리 뷰 -->
-    <div class="content-container view-section" id="view-shippers" style="display: none;">
+    <!-- [화면 2] 선적 통합 관리 -->
+    <div class="content-container view-section pt-4" id="view-shippers" style="display: none;">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <div>
-                <h3 class="fw-bold eng-font mb-1">Shipment Management</h3>
-                <p class="text-muted small mb-0">선적 진행 화물과 도착 완료 화물을 분리하고 데이터를 실시간 관리합니다.</p>
+                <h3 class="fw-bold display-font text-dark mb-1">Business Information</h3>
+                <p class="text-muted small mb-0">진행 중인 선적 화물과 통관 완료 화물을 분리하고 B/L 서류를 통합 관리합니다.</p>
             </div>
             <div class="d-flex gap-2">
-                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold" onclick="exportToExcel()">
+                <button class="btn btn-outline-dark btn-sm px-3 fw-bold" onclick="exportToExcel()">
                     <i class="bi bi-file-earmark-excel me-1"></i> Excel Export
                 </button>
-                <button class="btn-lavender-brand" onclick="openNewBLModal()">
+                <button class="btn-ocean-red" onclick="openNewBLModal()">
                     <i class="bi bi-plus-lg me-1"></i> 신규 B/L 등록
                 </button>
             </div>
         </div>
 
-        <!-- 진행 중 vs 도착/통관 완료 탭 -->
-        <ul class="nav nav-pills mb-3" id="shipment-status-tab">
+        <!-- 탭 분리 -->
+        <ul class="nav nav-tabs mb-3" id="shipment-status-tab">
             <li class="nav-item">
-                <button class="nav-link active small py-2 px-4 rounded-pill me-2 fw-bold" onclick="switchShipmentStatusTab('ACTIVE', this)">
-                    <i class="bi bi-water me-1"></i> 진행 중 화물 (<span id="count-active">1</span>)
+                <button class="nav-link active fw-bold small text-dark" onclick="switchShipmentStatusTab('ACTIVE', this)">
+                    운항 및 선적 진행중 (<span id="count-active">1</span>)
                 </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link small py-2 px-4 rounded-pill fw-bold" onclick="switchShipmentStatusTab('COMPLETED', this)">
-                    <i class="bi bi-check2-circle me-1"></i> 도착/통관 완료 (<span id="count-completed">0</span>)
+                <button class="nav-link fw-bold small text-muted" onclick="switchShipmentStatusTab('COMPLETED', this)">
+                    도착 / 통관 완료 (<span id="count-completed">0</span>)
                 </button>
             </li>
         </ul>
 
-        <!-- 다중 조건 복합 필터 바 -->
-        <div class="p-3 bg-white rounded-4 border mb-4" style="border-color: var(--border-lavender) !important;">
+        <!-- 다중 복합 필터 바 -->
+        <div class="p-3 bg-white rounded-3 border mb-3">
             <div class="row g-2 align-items-center">
                 <div class="col-md-3">
                     <label class="small text-muted fw-bold mb-1">화주별 필터</label>
@@ -599,6 +611,7 @@
                         <option value="MAERSK">Maersk</option>
                         <option value="MSC">MSC</option>
                         <option value="ONE">ONE</option>
+                        <option value="SM_LINE">SM Line (대한해운 연계)</option>
                         <option value="KOREAN_AIR">Korean Air</option>
                     </select>
                 </div>
@@ -610,75 +623,75 @@
                     </div>
                 </div>
                 <div class="col-md-2 text-end pt-3">
-                    <button class="btn btn-sm btn-light border rounded-pill px-3" onclick="resetMultiFilter()">초기화</button>
+                    <button class="btn btn-sm btn-light border px-3" onclick="resetMultiFilter()">초기화</button>
                 </div>
             </div>
         </div>
 
-        <!-- 마스터 리스트 (도착완료 토글, 수정, 삭제) -->
+        <!-- 마스터 리스트 -->
         <div id="master-shipment-list"></div>
     </div>
 
-    <!-- [화면 3] 무역 물류 뉴스룸 뷰 -->
-    <div class="content-container view-section" id="view-news" style="display: none;">
+    <!-- [화면 3] Public Relations (뉴스룸) -->
+    <div class="content-container view-section pt-4" id="view-news" style="display: none;">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h3 class="fw-bold eng-font mb-1">Trade Intelligence</h3>
-                <p class="text-muted small mb-0">해운, 통관, 항공 물류 전문 기사 실시간 큐레이션</p>
+                <h3 class="fw-bold display-font text-dark mb-1">Public Relations</h3>
+                <p class="text-muted small mb-0">대한해운 및 글로벌 해운·통관·항공 화물 물류 공식 미디어 룸</p>
             </div>
-            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="switchView('dashboard')">
+            <button class="btn btn-outline-dark btn-sm px-3 fw-bold" onclick="switchView('dashboard')">
                 대시보드로 돌아가기
             </button>
         </div>
 
-        <div class="d-flex gap-2 mb-4" id="news-category-tabs">
-            <button class="btn btn-sm btn-dark rounded-pill px-3 active" onclick="changeNewsCategory('all', this)">전체 종합</button>
-            <button class="btn btn-sm btn-light border rounded-pill px-3" onclick="changeNewsCategory('shipping', this)">해운 / 컨테이너 운임</button>
-            <button class="btn btn-sm btn-light border rounded-pill px-3" onclick="changeNewsCategory('customs', this)">관세청 / 수출입 통관</button>
-            <button class="btn btn-sm btn-light border rounded-pill px-3" onclick="changeNewsCategory('air', this)">항공 화물 물류</button>
+        <div class="d-flex gap-2 mb-3" id="news-category-tabs">
+            <button class="btn btn-sm btn-dark px-3 active" onclick="changeNewsCategory('all', this)">전체 종합</button>
+            <button class="btn btn-sm btn-light border px-3" onclick="changeNewsCategory('shipping', this)">해운 / 컨테이너 운임</button>
+            <button class="btn btn-sm btn-light border px-3" onclick="changeNewsCategory('customs', this)">관세청 / 수출입 통관</button>
+            <button class="btn btn-sm btn-light border px-3" onclick="changeNewsCategory('air', this)">항공 화물 물류</button>
         </div>
 
-        <div class="row g-3" id="full-live-news-container"></div>
+        <div id="full-live-news-container"></div>
 
-        <div class="text-center mt-5">
-            <button class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold" id="btn-load-more-news" onclick="loadMoreNews()">
-                + 뉴스 더보기 (<span id="news-counter">6</span>/30)
+        <div class="text-center mt-4 mb-3">
+            <button class="btn btn-outline-dark btn-sm px-4 py-2 fw-bold" id="btn-load-more-news" onclick="loadMoreNews()">
+                + 기사 더보기 (<span id="news-counter">6</span>/30)
             </button>
         </div>
     </div>
 </div>
 
-<!-- 모달: 신규 등록 및 수정 모달 -->
+<!-- 모달: 신규 B/L 등록 및 수정 -->
 <div class="modal fade" id="newBLModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="border-radius: 24px; border: 1px solid var(--border-lavender);">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold" id="blModalTitle">신규 선적 B/L 등록</h5>
+        <div class="modal-content" style="border-radius: var(--radius-box);">
+            <div class="modal-header">
+                <h6 class="modal-title fw-bold" id="blModalTitle">신규 선적 B/L 등록</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body pt-3">
+            <div class="modal-body">
                 <form id="newBLForm">
                     <input type="hidden" id="edit-bl-index" value="-1">
-                    <div class="row g-3 mb-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-md-6">
                             <label class="form-label small text-muted">화주명</label>
-                            <select class="form-select" id="bl-shipper-select" onchange="toggleCustomShipper(this.value)" required>
+                            <select class="form-select form-select-sm" id="bl-shipper-select" onchange="toggleCustomShipper(this.value)" required>
                                 <option value="삼성물산">삼성물산</option>
                                 <option value="LG화학">LG화학</option>
                                 <option value="현대글로비스">현대글로비스</option>
                                 <option value="__CUSTOM__">+ 신규 화주 직접 입력</option>
                             </select>
-                            <input type="text" class="form-control mt-2" id="bl-custom-shipper" placeholder="화주명 입력" style="display: none;">
+                            <input type="text" class="form-control form-control-sm mt-1" id="bl-custom-shipper" placeholder="화주명 입력" style="display: none;">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small text-muted">선사 / 항공사</label>
-                            <select class="form-select" id="bl-carrier-select" onchange="onCarrierOrBLChanged()">
+                            <select class="form-select form-select-sm" id="bl-carrier-select" onchange="onCarrierOrBLChanged()">
                                 <option value="HMM">HMM (HDMU)</option>
                                 <option value="MAERSK">Maersk (MAEU)</option>
                                 <option value="MSC">MSC (MSCU)</option>
                                 <option value="ONE">ONE (ONEY)</option>
                                 <option value="ZIM">Zim (ZIMU)</option>
-                                <option value="SMLINE">SM Line (SMLU)</option>
+                                <option value="SMLINE">SM Line / 대한해운 (SMLU)</option>
                                 <option value="EVERGREEN">Evergreen (EGLV)</option>
                                 <option value="KOREAN_AIR">Korean Air</option>
                                 <option value="ASIANA">Asiana</option>
@@ -686,55 +699,55 @@
                                 <option value="LUFTHANSA">Lufthansa</option>
                                 <option value="__CUSTOM_CARRIER__">+ 직접 입력</option>
                             </select>
-                            <input type="text" class="form-control mt-2" id="bl-custom-carrier" placeholder="선사/항공사명 직접 입력" style="display: none;">
+                            <input type="text" class="form-control form-control-sm mt-1" id="bl-custom-carrier" placeholder="선사/항공사명 직접 입력" style="display: none;">
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-md-6">
                             <label class="form-label small text-muted">B/L 번호</label>
-                            <input type="text" class="form-control" id="bl-no" placeholder="예: HDMU1234567" oninput="onCarrierOrBLChanged()" required>
+                            <input type="text" class="form-control form-control-sm" id="bl-no" placeholder="예: HDMU1234567" oninput="onCarrierOrBLChanged()" required>
                             <div id="scac-alert" class="small mt-1 text-danger" style="display: none;">
                                 ⚠️ 선사 SCAC 코드가 일치하지 않습니다.
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small text-muted">본선명 (선박/항공기명)</label>
-                            <input type="text" class="form-control" id="bl-vessel" placeholder="예: HMM ROTTERDAM">
+                            <input type="text" class="form-control form-control-sm" id="bl-vessel" placeholder="예: SM ROTTERDAM">
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-md-6">
                             <label class="form-label small text-muted">선적지 (POL / AOL)</label>
-                            <input type="text" class="form-control" id="bl-pol" value="부산 (PUS)">
+                            <input type="text" class="form-control form-control-sm" id="bl-pol" value="부산 (PUS)">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small text-muted">도착지 (POD / AOD)</label>
-                            <input type="text" class="form-control" id="bl-pod" placeholder="예: 로테르담 (RTM)" required>
+                            <input type="text" class="form-control form-control-sm" id="bl-pod" placeholder="예: 로테르담 (RTM)" required>
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-md-4">
                             <label class="form-label small text-muted">출항일 (ETD)</label>
-                            <input type="date" class="form-control" id="bl-etd" onchange="autoCalculateCutOff(this.value)" required>
+                            <input type="date" class="form-control form-control-sm" id="bl-etd" onchange="autoCalculateCutOff(this.value)" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small text-muted">입항일 (ETA)</label>
-                            <input type="date" class="form-control" id="bl-eta" required>
+                            <input type="date" class="form-control form-control-sm" id="bl-eta" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small text-muted">진행 상태</label>
-                            <select class="form-select" id="bl-status">
+                            <select class="form-select form-select-sm" id="bl-status">
                                 <option value="ACTIVE">선적/운항 진행중</option>
                                 <option value="COMPLETED">도착 / 통관 완료</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="p-3 rounded-4 bg-light mb-2">
-                        <div class="small fw-bold mb-2">Cut-Off 마감 일시 설정 (직접 변경 가능)</div>
+                    <div class="p-2 rounded bg-light border mt-2">
+                        <div class="small fw-bold mb-1 text-muted">Cut-Off 마감 일시 설정 (직접 변경 가능)</div>
                         <div class="row g-2">
                             <div class="col-6">
                                 <label class="small text-muted">서류 마감 (기본: ETD -2일 17:00)</label>
@@ -748,9 +761,9 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn-lavender-brand" onclick="submitNewBL()">저장 완료</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light border" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn-ocean-red" onclick="submitNewBL()">저장 완료</button>
             </div>
         </div>
     </div>
@@ -759,17 +772,17 @@
 <!-- 모달: CLP 적재 시뮬레이터 -->
 <div class="modal fade" id="cbmModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content" style="border-radius: 24px; border: 1px solid var(--border-lavender);">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">CLP (컨테이너 적재 시뮬레이터)</h5>
+        <div class="modal-content" style="border-radius: var(--radius-box);">
+            <div class="modal-header">
+                <h6 class="modal-title fw-bold"><i class="bi bi-boxes me-1 text-primary"></i> CLP (컨테이너 적재 시뮬레이터)</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body pt-3">
-                <div class="row g-4">
+            <div class="modal-body">
+                <div class="row g-3">
                     <div class="col-lg-7">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="fw-bold small">화물 규격별 입력</span>
-                            <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="addCargoRow()">+ 규격 추가</button>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold small text-dark">화물 규격별 입력</span>
+                            <button class="btn btn-sm btn-outline-primary" onclick="addCargoRow()">+ 규격 추가</button>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-sm text-center align-middle" style="font-size: 13px;">
@@ -792,7 +805,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-3 bg-light rounded-4 mt-3 d-flex justify-content-around text-center">
+                        <div class="p-2 bg-light rounded border mt-2 d-flex justify-content-around text-center">
                             <div><div class="small text-muted">총 수량</div><strong id="total-qty">100 개</strong></div>
                             <div><div class="small text-muted">총 중량</div><strong id="total-weight">1,000 kg</strong></div>
                             <div><div class="small text-muted">총 용적</div><strong class="text-primary" id="total-cbm">6.000 CBM</strong></div>
@@ -800,102 +813,100 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="fw-bold small mb-3">컨테이너 적재 시뮬레이션 결과</div>
-                        <div class="p-3 border rounded-4 mb-2">
+                        <div class="fw-bold small mb-2 text-dark">컨테이너 적재 시뮬레이션 결과</div>
+                        <div class="p-3 border rounded mb-2 bg-white">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small fw-bold">20FT Dry (33 CBM)</span>
-                                <span class="badge bg-primary rounded-pill" id="clp-20-res">1대 (18%)</span>
+                                <span class="badge bg-primary" id="clp-20-res">1대 (18%)</span>
                             </div>
                             <div class="progress" style="height: 6px;"><div class="progress-bar bg-primary" id="clp-20-bar" style="width: 18%;"></div></div>
                         </div>
-                        <div class="p-3 border rounded-4 mb-2">
+                        <div class="p-3 border rounded mb-2 bg-white">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small fw-bold">40FT Dry (67 CBM)</span>
-                                <span class="badge bg-success rounded-pill" id="clp-40-res">1대 (9%)</span>
+                                <span class="badge bg-success" id="clp-40-res">1대 (9%)</span>
                             </div>
                             <div class="progress" style="height: 6px;"><div class="progress-bar bg-success" id="clp-40-bar" style="width: 9%;"></div></div>
                         </div>
-                        <div class="p-3 border rounded-4 mb-2">
+                        <div class="p-3 border rounded bg-white">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small fw-bold">40FT High Cube (76 CBM)</span>
-                                <span class="badge bg-info text-dark rounded-pill" id="clp-40hq-res">1대 (8%)</span>
+                                <span class="badge bg-info text-dark" id="clp-40hq-res">1대 (8%)</span>
                             </div>
                             <div class="progress" style="height: 6px;"><div class="progress-bar bg-info" id="clp-40hq-bar" style="width: 8%;"></div></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">닫기</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light border" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 모달: 선적 서류 관리 (다운로드 즉각 보장 & 삭제/교체) -->
+<!-- 모달: 선적 서류 관리 (다운로드 즉시 보장) -->
 <div class="modal fade" id="docManageModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px; border: 1px solid var(--border-lavender);">
-            <div class="modal-header border-0 pb-0">
+        <div class="modal-content" style="border-radius: var(--radius-box);">
+            <div class="modal-header">
                 <h6 class="modal-title fw-bold" id="docModalTitle"><i class="bi bi-folder2-open text-primary me-1"></i> 서류 관리</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body pt-3">
+            <div class="modal-body">
                 <input type="hidden" id="modal-doc-bl">
                 <input type="hidden" id="modal-doc-type">
                 
-                <!-- 이미 등록된 서류 표시 및 다운로드 카드 -->
-                <div id="existing-file-card" class="card p-3 mb-3 border-0 bg-light rounded-3" style="display: none;">
+                <div id="existing-file-card" class="card p-3 mb-3 border-0 bg-light rounded" style="display: none;">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="badge bg-success mb-1">등록된 서류 파일</span>
+                            <span class="badge bg-success mb-1">보관 중인 파일</span>
                             <div class="fw-bold text-truncate" id="existing-file-name" style="max-width: 220px;">-</div>
                             <div class="small text-muted" id="existing-file-date">등록일: -</div>
                         </div>
                         <div class="d-flex gap-1">
-                            <button type="button" class="btn btn-sm btn-primary rounded-pill px-3" onclick="downloadCurrentDoc()" title="파일 다운로드">
-                                <i class="bi bi-download me-1"></i> 다운
+                            <button type="button" class="btn btn-sm btn-primary px-3" onclick="downloadCurrentDoc()" title="파일 다운로드">
+                                <i class="bi bi-download me-1"></i> 다운로드
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteCurrentDoc()" title="서류 삭제">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteCurrentDoc()" title="서류 삭제">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="border rounded-4 p-3 bg-white">
+                <div class="border rounded p-3 bg-white">
                     <label class="form-label small fw-bold text-muted mb-2" id="upload-label"><i class="bi bi-arrow-repeat"></i> 최신 파일로 등록/교체</label>
                     <input type="file" class="form-control form-control-sm mb-2" id="doc-file-input">
-                    <div class="small text-muted"><i class="bi bi-info-circle"></i> 파일을 올리면 즉시 시스템에 보관되어 언제든 재다운로드할 수 있습니다.</div>
+                    <div class="small text-muted"><i class="bi bi-info-circle"></i> 업로드 즉시 클라우드에 보관되어 언제든 재다운로드할 수 있습니다.</div>
                 </div>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-sm btn-light rounded-pill px-3" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-sm btn-lavender-brand" onclick="submitDocUpload()">서류 업로드 반영</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light border" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn-ocean-red" onclick="submitDocUpload()">서류 업로드 완료</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- 플로팅 챗봇 -->
-<button id="chat-btn" onclick="toggleChat()"><i class="bi bi-chat-dots-fill"></i></button>
+<button id="chat-btn" onclick="toggleChat()"><i class="bi bi-chat-dots"></i></button>
 <div id="chat-window">
     <div class="chat-head">
-        <span class="fw-bold eng-font"><i class="bi bi-stars me-1"></i> TRADE AI</span>
+        <span class="fw-bold"><i class="bi bi-robot me-1"></i> TRADE FLOW AI</span>
         <button class="btn btn-sm text-white p-0" onclick="toggleChat()"><i class="bi bi-x-lg"></i></button>
     </div>
     <div id="chat-body">
         <div class="bot-bubble">안녕하세요! Cut-Off 마감일정이나 B/L 상태, 서류 다운로드 및 무역 뉴스를 물어보세요.</div>
     </div>
     <div class="p-2 border-top bg-white d-flex gap-2">
-        <input type="text" id="chat-input" class="form-control form-control-sm border-0" placeholder="메시지 입력..." onkeypress="if(event.keyCode==13) sendMsg()">
-        <button class="btn btn-sm btn-lavender-brand px-3" onclick="sendMsg()"><i class="bi bi-send"></i></button>
+        <input type="text" id="chat-input" class="form-control form-control-sm" placeholder="메시지 입력..." onkeypress="if(event.keyCode==13) sendMsg()">
+        <button class="btn btn-sm btn-dark px-3" onclick="sendMsg()"><i class="bi bi-send"></i></button>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// 사이드바 토글 & 드래그 조절
 function toggleSidebar() {
     document.getElementById('main-sidebar').classList.toggle('collapsed');
 }
@@ -915,7 +926,7 @@ document.addEventListener('mousemove', (e) => {
 });
 document.addEventListener('mouseup', () => { isResizing = false; document.body.style.cursor = ''; });
 
-// [핵심] 선적 데이터 상태 관리
+// 선적 데이터 상태 관리
 let shipmentDataList = [
     {
         shipper: "삼성물산",
@@ -928,7 +939,7 @@ let shipmentDataList = [
         eta: "2026-10-05 08:00",
         docCut: "2026-09-16T17:00",
         cargoCut: "2026-09-17T12:00",
-        status: "ACTIVE", // ACTIVE: 진행중, COMPLETED: 완료
+        status: "ACTIVE",
         docs: { 
             CI: { original_name: "Commercial_Invoice_HDMU.pdf", uploaded_at: "2026-09-15 11:30" }, 
             PL: { original_name: "Packing_List_HDMU.pdf", uploaded_at: "2026-09-15 11:32" }, 
@@ -939,7 +950,6 @@ let shipmentDataList = [
 
 let currentShipmentTab = 'ACTIVE';
 
-// 탭 전환 (진행 중 vs 도착/통관 완료)
 function switchShipmentStatusTab(status, btn) {
     currentShipmentTab = status;
     document.querySelectorAll('#shipment-status-tab button').forEach(b => b.classList.remove('active'));
@@ -947,22 +957,20 @@ function switchShipmentStatusTab(status, btn) {
     renderMasterShipments();
 }
 
-// 1. [요청 기능] 도착/통관 완료 ↔ 진행중 원클릭 상태 전환 토글 함수
 function toggleShipmentStatus(index) {
     const item = shipmentDataList[index];
     if (!item) return;
 
     if (item.status === 'ACTIVE') {
         item.status = 'COMPLETED';
-        alert(`[${item.blNo}] 건이 '도착/통관 완료' 상태로 변경되어 완료 탭으로 이동했습니다.`);
+        alert(`[${item.blNo}] 화물이 '도착 / 통관 완료' 처리되었습니다.`);
     } else {
         item.status = 'ACTIVE';
-        alert(`[${item.blNo}] 건이 '진행 중 화물' 상태로 재변경되었습니다.`);
+        alert(`[${item.blNo}] 화물이 '운항 진행중'으로 복구되었습니다.`);
     }
     renderMasterShipments();
 }
 
-// 선적 마스터 렌더링 (다중 필터 적용 및 대시보드 리마인더 연동)
 function renderMasterShipments() {
     const listContainer = document.getElementById('master-shipment-list');
     const dashboardContainer = document.getElementById('dashboard-shipment-list');
@@ -976,14 +984,12 @@ function renderMasterShipments() {
     let cutoffAlertList = [];
     let docAlertList = [];
 
-    shipmentDataList.forEach((item, index) => {
+    shipmentDataList.forEach(item => {
         if (item.status === 'ACTIVE') {
             activeCount++;
-            // Cut-off 임박 체크 (서류 미마감 시)
             if (item.docCut) {
                 cutoffAlertList.push({ shipper: item.shipper, blNo: item.blNo, vessel: item.vessel, cut: item.docCut });
             }
-            // 서류 미비 체크
             const missing = [];
             if (!item.docs.CI) missing.push('C/I');
             if (!item.docs.PL) missing.push('P/L');
@@ -999,7 +1005,6 @@ function renderMasterShipments() {
     document.getElementById('count-active').innerText = activeCount;
     document.getElementById('count-completed').innerText = completedCount;
 
-    // 대시보드 상단 리마인더 박스 갱신
     document.getElementById('cutoff-alert-badge').innerText = `${cutoffAlertList.length}건 주의`;
     document.getElementById('doc-alert-badge').innerText = `${docAlertList.length}건 미완료`;
 
@@ -1025,7 +1030,6 @@ function renderMasterShipments() {
     });
     document.getElementById('doc-reminder-list').innerHTML = docHtml || '<div class="py-2 text-muted small">모든 서류가 정상 구비되었습니다.</div>';
 
-    // 목록 렌더링
     let masterHtml = '';
     let dashboardHtml = '';
 
@@ -1041,29 +1045,28 @@ function renderMasterShipments() {
         const isVisible = isTabMatch && isShipperMatch && isCarrierMatch && isSearchMatch;
 
         const docBadgeCI = item.docs.CI ? 
-            `<span class="doc-chip done" onclick="manageDoc('${item.blNo}', 'CI', 'C/I (상업송장)')"><i class="bi bi-file-earmark-check"></i> C/I ✓</span>` :
-            `<span class="doc-chip pending" onclick="manageDoc('${item.blNo}', 'CI', 'C/I (상업송장)')"><i class="bi bi-exclamation-circle"></i> C/I 미제출 !</span>`;
+            `<span class="doc-chip done" onclick="manageDoc('${item.blNo}', 'CI', 'C/I (상업송장)')"><i class="bi bi-check-lg"></i> C/I ✓</span>` :
+            `<span class="doc-chip pending" onclick="manageDoc('${item.blNo}', 'CI', 'C/I (상업송장)')"><i class="bi bi-exclamation"></i> C/I 누락</span>`;
         const docBadgePL = item.docs.PL ? 
-            `<span class="doc-chip done" onclick="manageDoc('${item.blNo}', 'PL', 'P/L (포장명세서)')"><i class="bi bi-file-earmark-check"></i> P/L ✓</span>` :
-            `<span class="doc-chip pending" onclick="manageDoc('${item.blNo}', 'PL', 'P/L (포장명세서)')"><i class="bi bi-exclamation-circle"></i> P/L 미제출 !</span>`;
+            `<span class="doc-chip done" onclick="manageDoc('${item.blNo}', 'PL', 'P/L (포장명세서)')"><i class="bi bi-check-lg"></i> P/L ✓</span>` :
+            `<span class="doc-chip pending" onclick="manageDoc('${item.blNo}', 'PL', 'P/L (포장명세서)')"><i class="bi bi-exclamation"></i> P/L 누락</span>`;
         const docBadgeCC = item.docs.CC ? 
-            `<span class="doc-chip done" onclick="manageDoc('${item.blNo}', 'CC', '수출신고필증')"><i class="bi bi-file-earmark-check"></i> 면장 ✓</span>` :
-            `<span class="doc-chip pending" onclick="manageDoc('${item.blNo}', 'CC', '수출신고필증')"><i class="bi bi-exclamation-circle"></i> 면장 미제출 !</span>`;
+            `<span class="doc-chip done" onclick="manageDoc('${item.blNo}', 'CC', '수출신고필증')"><i class="bi bi-check-lg"></i> 면장 ✓</span>` :
+            `<span class="doc-chip pending" onclick="manageDoc('${item.blNo}', 'CC', '수출신고필증')"><i class="bi bi-exclamation"></i> 면장 누락</span>`;
 
-        // 상태 전환 버튼
         const statusActionBtn = (item.status === 'ACTIVE') ?
-            `<button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 small fw-semibold" onclick="toggleShipmentStatus(${index})" title="도착/통관 완료 처리">
-                <i class="bi bi-check2-circle me-1"></i> 도착완료
+            `<button class="btn btn-sm btn-outline-success px-2 py-1 small fw-bold" onclick="toggleShipmentStatus(${index})" title="도착/통관 완료 처리">
+                <i class="bi bi-check2"></i> 도착완료
              </button>` :
-            `<button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 small fw-semibold" onclick="toggleShipmentStatus(${index})" title="진행중으로 재변경">
-                <i class="bi bi-arrow-counterclockwise me-1"></i> 진행중 복구
+            `<button class="btn btn-sm btn-outline-secondary px-2 py-1 small fw-bold" onclick="toggleShipmentStatus(${index})" title="진행중으로 재변경">
+                <i class="bi bi-arrow-counterclockwise"></i> 복구
              </button>`;
 
         if (isVisible) {
             masterHtml += `
                 <div class="shipment-slab ${item.status === 'COMPLETED' ? 'completed' : ''}">
                     <div class="d-flex align-items-center gap-3">
-                        <span class="carrier-tag">${item.carrier}</span>
+                        <span class="carrier-badge">${item.carrier}</span>
                         <div>
                             <div class="fw-bold fs-6 text-dark">${item.blNo} <span class="badge bg-light text-dark border ms-1">${item.shipper}</span></div>
                             <div class="small text-muted">${item.pol} ➔ ${item.pod} · ${item.vessel}</div>
@@ -1074,17 +1077,17 @@ function renderMasterShipments() {
                             <div class="small text-muted">서류: ${item.docCut ? item.docCut.slice(5,10) + ' ' + item.docCut.slice(11,16) : '-'}</div>
                             <div class="fw-bold text-primary">ETA: ${item.eta}</div>
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-1">
                             ${docBadgeCI}
                             ${docBadgePL}
                             ${docBadgeCC}
                         </div>
                         <div class="d-flex gap-1 border-start ps-3 align-items-center">
                             ${statusActionBtn}
-                            <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="editShipment(${index})" title="데이터 수정">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="editShipment(${index})" title="수정">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="deleteShipment(${index})" title="화물 삭제">
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteShipment(${index})" title="삭제">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -1093,12 +1096,11 @@ function renderMasterShipments() {
             `;
         }
 
-        // 대시보드 메인 리스트 렌더링
         if (item.status === 'ACTIVE') {
             dashboardHtml += `
                 <div class="shipment-slab">
                     <div class="d-flex align-items-center gap-3">
-                        <span class="carrier-tag">${item.carrier}</span>
+                        <span class="carrier-badge">${item.carrier}</span>
                         <div>
                             <div class="fw-bold fs-6 text-dark">${item.blNo} <span class="badge bg-light text-dark border ms-1">${item.shipper}</span></div>
                             <div class="small text-muted">${item.pol} ➔ ${item.pod} · 본선: ${item.vessel}</div>
@@ -1109,7 +1111,7 @@ function renderMasterShipments() {
                             <div class="small text-muted">ETD: ${item.etd.slice(5)}</div>
                             <div class="fw-bold text-primary">ETA: ${item.eta}</div>
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-1">
                             ${docBadgeCI}
                             ${docBadgePL}
                             ${docBadgeCC}
@@ -1120,8 +1122,8 @@ function renderMasterShipments() {
         }
     });
 
-    listContainer.innerHTML = masterHtml || '<div class="text-center py-5 text-muted bg-white rounded-4 border">해당 조건에 일치하는 화물이 없습니다.</div>';
-    dashboardContainer.innerHTML = dashboardHtml || '<div class="text-center py-4 text-muted bg-white rounded-4 border">현재 진행 중인 선적 화물이 없습니다.</div>';
+    listContainer.innerHTML = masterHtml || '<div class="text-center py-5 text-muted bg-white rounded border">해당 조건에 일치하는 화물이 없습니다.</div>';
+    dashboardContainer.innerHTML = dashboardHtml || '<div class="text-center py-4 text-muted bg-white rounded border">현재 진행 중인 선적 화물이 없습니다.</div>';
 }
 
 function applyMultiFilter() { renderMasterShipments(); }
@@ -1132,7 +1134,6 @@ function resetMultiFilter() {
     renderMasterShipments();
 }
 
-// 등록 데이터 수정
 function editShipment(index) {
     const item = shipmentDataList[index];
     if (!item) return;
@@ -1154,7 +1155,6 @@ function editShipment(index) {
     openNewBLModal();
 }
 
-// 등록 화물 삭제
 function deleteShipment(index) {
     const item = shipmentDataList[index];
     if (!confirm(`[${item.blNo}] 선적 데이터를 완전히 삭제하시겠습니까?`)) return;
@@ -1162,7 +1162,6 @@ function deleteShipment(index) {
     renderMasterShipments();
 }
 
-// 신규 및 수정 저장 처리
 function submitNewBL() {
     const editIndex = parseInt(document.getElementById('edit-bl-index').value);
     const shipperSel = document.getElementById('bl-shipper-select').value;
@@ -1205,7 +1204,6 @@ function submitNewBL() {
     renderMasterShipments();
 }
 
-// 화면 전환
 function switchView(viewName) {
     document.querySelectorAll('.menu-item a').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
@@ -1223,7 +1221,6 @@ function switchView(viewName) {
     renderMasterShipments();
 }
 
-// 실시간 시계
 function updateWorldClocks() {
     const fmt = tz => new Intl.DateTimeFormat('ko-KR', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(new Date());
     document.getElementById('clock-kr').innerText = fmt('Asia/Seoul');
@@ -1234,20 +1231,18 @@ function updateWorldClocks() {
 setInterval(updateWorldClocks, 1000);
 updateWorldClocks();
 
-// 실시간 환율
 fetch('https://open.er-api.com/v6/latest/USD')
     .then(r => r.json())
     .then(d => {
         if(d && d.rates) {
             const krw = d.rates.KRW || 1348.5;
-            document.getElementById('rate-usd').innerHTML = `${krw.toFixed(2)} <span>원</span>`;
-            document.getElementById('rate-eur').innerHTML = `${(krw / d.rates.EUR).toFixed(2)} <span>원</span>`;
-            document.getElementById('rate-cny').innerHTML = `${(krw / d.rates.CNY).toFixed(2)} <span>원</span>`;
-            document.getElementById('rate-jpy').innerHTML = `${((krw / d.rates.JPY) * 100).toFixed(2)} <span>원</span>`;
+            document.getElementById('rate-usd').innerHTML = `${krw.toFixed(2)} 원`;
+            document.getElementById('rate-eur').innerHTML = `${(krw / d.rates.EUR).toFixed(2)} 원`;
+            document.getElementById('rate-cny').innerHTML = `${(krw / d.rates.CNY).toFixed(2)} 원`;
+            document.getElementById('rate-jpy').innerHTML = `${((krw / d.rates.JPY) * 100).toFixed(2)} 원`;
         }
     });
 
-// 뉴스 연동 & 더보기
 let currentCategory = 'all';
 let allArticles = [];
 let newsLimit = 6;
@@ -1271,23 +1266,22 @@ function fetchLiveNews(cat = 'all') {
         });
 }
 
+// 대한해운 Public Relations 스타일 뉴스 렌더링
 function renderNewsUI() {
     const mainBox = document.getElementById('main-live-news-container');
     let mainH = '';
-    allArticles.slice(0, 2).forEach(a => {
+    allArticles.slice(0, 3).forEach(a => {
         mainH += `
-            <div class="col-md-6 col-12">
-                <a href="${a.link}" target="_blank" class="news-card-slab">
+            <a href="${a.link}" target="_blank" class="pr-news-slab">
+                <div class="d-flex align-items-center">
+                    <span class="news-badge-red">NEWS</span>
                     <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-primary border rounded-pill px-3 py-1">${a.source}</span>
-                            <span class="text-muted small">${a.date}</span>
-                        </div>
-                        <h6 class="fw-bold mb-2 text-truncate-2">${a.title}</h6>
-                        <p class="text-muted small mb-0 text-truncate-2">${a.summary}</p>
+                        <div class="fw-bold text-dark text-truncate-2" style="font-size: 0.95rem;">${a.title}</div>
+                        <div class="small text-muted mt-1">${a.source} · ${a.date}</div>
                     </div>
-                </a>
-            </div>
+                </div>
+                <i class="bi bi-chevron-right text-muted"></i>
+            </a>
         `;
     });
     mainBox.innerHTML = mainH;
@@ -1296,18 +1290,17 @@ function renderNewsUI() {
     let fullH = '';
     allArticles.slice(0, newsLimit).forEach(a => {
         fullH += `
-            <div class="col-md-6 col-12">
-                <a href="${a.link}" target="_blank" class="news-card-slab">
+            <a href="${a.link}" target="_blank" class="pr-news-slab">
+                <div class="d-flex align-items-center">
+                    <span class="news-badge-red">NEWS</span>
                     <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-primary border rounded-pill px-3 py-1">${a.source}</span>
-                            <span class="text-muted small">${a.date}</span>
-                        </div>
-                        <h6 class="fw-bold mb-2">${a.title}</h6>
-                        <p class="text-muted small mb-0 text-truncate-2">${a.summary}</p>
+                        <div class="fw-bold text-dark mb-1" style="font-size: 1rem;">${a.title}</div>
+                        <div class="small text-muted mb-1 text-truncate-2">${a.summary}</div>
+                        <div class="small text-muted">${a.source} · ${a.date}</div>
                     </div>
-                </a>
-            </div>
+                </div>
+                <i class="bi bi-arrow-up-right-square text-muted fs-5 ms-3"></i>
+            </a>
         `;
     });
     fullBox.innerHTML = fullH;
@@ -1320,7 +1313,6 @@ function loadMoreNews() {
 }
 fetchLiveNews('all');
 
-// 신규 등록 모달 인스턴스
 let newBLModalInst = null;
 function openNewBLModal() {
     if (!newBLModalInst) newBLModalInst = new bootstrap.Modal(document.getElementById('newBLModal'));
@@ -1345,7 +1337,6 @@ function autoCalculateCutOff(etdStr) {
     document.getElementById('bl-cargo-cut').value = `${c.toISOString().slice(0,10)}T12:00`;
 }
 
-// CBM & CLP 모달
 let cbmModalInst = null;
 function openCbmModal() {
     if (!cbmModalInst) cbmModalInst = new bootstrap.Modal(document.getElementById('cbmModal'));
@@ -1412,7 +1403,7 @@ function recalcMultiCBM() {
     document.getElementById('clp-40hq-bar').style.width = `${p40hq}%`;
 }
 
-// 2. [요청 기능] 서류 통합 관리 모달 (다운로드 이중 안전 보장)
+// 서류 관리 모달 및 안전 다운로드
 let docManageModalInstance = null;
 let currentDocLabel = '';
 let currentDocItem = null;
@@ -1444,19 +1435,17 @@ function manageDoc(blNo, docType, label) {
     docManageModalInstance.show();
 }
 
-// [핵심] 등록된 서류 다운로드 실행 함수 (Blob & 백엔드 완벽 대응)
 function downloadCurrentDoc() {
     const blNo = document.getElementById('modal-doc-bl').value;
     const docType = document.getElementById('modal-doc-type').value;
 
     if (!currentDocItem) {
-        alert('다운로드할 서류 정보가 존재하지 않습니다.');
+        alert('다운로드할 서류 파일이 없습니다.');
         return;
     }
 
     const fileName = currentDocItem.original_name || `${blNo}_${docType}.pdf`;
 
-    // 1. 메모리에 파일 객체(File Blob)가 있으면 즉각 가상 다운로드
     if (currentDocItem.fileObj) {
         const url = URL.createObjectURL(currentDocItem.fileObj);
         const a = document.createElement('a');
@@ -1469,7 +1458,6 @@ function downloadCurrentDoc() {
         return;
     }
 
-    // 2. 서버 경로 또는 가상 데이터 다운로드 백업
     fetch(`/api/documents/download/${blNo}/${docType}`)
         .then(response => {
             if (response.ok) return response.blob();
@@ -1485,8 +1473,7 @@ function downloadCurrentDoc() {
             a.remove();
         })
         .catch(() => {
-            // 서버에 실제 업로드 전 모의 테스트용 더미 파일 안전 다운로드 생성
-            const dummyContent = `TRADE FLOW 선적 서류\nB/L: ${blNo}\n서류 종류: ${docType}\n파일명: ${fileName}\n등록일: ${currentDocItem.uploaded_at}`;
+            const dummyContent = `KOREA SHIPPING TRADE FLOW 선적 서류\nB/L 번호: ${blNo}\n서류 구분: ${docType}\n파일명: ${fileName}\n등록일시: ${currentDocItem.uploaded_at}`;
             const dummyBlob = new Blob([dummyContent], { type: 'text/plain;charset=utf-8' });
             const dummyUrl = URL.createObjectURL(dummyBlob);
             const a = document.createElement('a');
@@ -1499,7 +1486,6 @@ function downloadCurrentDoc() {
         });
 }
 
-// 서류 삭제
 function deleteCurrentDoc() {
     const blNo = document.getElementById('modal-doc-bl').value;
     const docType = document.getElementById('modal-doc-type').value;
@@ -1521,7 +1507,6 @@ function deleteCurrentDoc() {
     renderMasterShipments();
 }
 
-// 서류 업로드 및 교체 반영
 function submitDocUpload() {
     const blNo = document.getElementById('modal-doc-bl').value;
     const docType = document.getElementById('modal-doc-type').value;
@@ -1541,25 +1526,23 @@ function submitDocUpload() {
         shipment.docs[docType] = {
             original_name: uploadedFile.name,
             uploaded_at: nowStr,
-            fileObj: uploadedFile // 브라우저 메모리에 보관하여 언제든 원본 다운로드 보장
+            fileObj: uploadedFile
         };
     }
 
-    // 서버로도 동시 전송
     const formData = new FormData();
     formData.append('bl_no', blNo);
     formData.append('doc_type', docType);
     formData.append('file', uploadedFile);
 
     fetch('/api/documents/upload', { method: 'POST', body: formData })
-        .catch(err => console.log('백엔드 업로드 동기화:', err));
+        .catch(err => console.log('백엔드 동기화:', err));
 
-    alert(`[${uploadedFile.name}] 서류가 안전하게 등록되었습니다. 언제든 다시 다운로드할 수 있습니다.`);
+    alert(`[${uploadedFile.name}] 서류가 등록되었습니다. 언제든 다시 다운로드할 수 있습니다.`);
     docManageModalInstance.hide();
     renderMasterShipments();
 }
 
-// 엑셀 내보내기
 function exportToExcel() {
     const exportData = shipmentDataList.map(item => ({
         "화주명": item.shipper,
@@ -1578,10 +1561,9 @@ function exportToExcel() {
     const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "선적현황_Report");
-    XLSX.writeFile(wb, `Trade_Tracking_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
+    XLSX.writeFile(wb, `Korea_Shipping_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
 }
 
-// 챗봇 토글 & 전송
 function toggleChat() {
     const w = document.getElementById('chat-window');
     w.style.display = w.style.display === 'flex' ? 'none' : 'flex';
@@ -1605,7 +1587,6 @@ function sendMsg() {
     });
 }
 
-// 초기 로딩 렌더링 실행
 renderMasterShipments();
 </script>
 </body>
