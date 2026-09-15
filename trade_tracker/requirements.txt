@@ -2,3 +2,4 @@ Flask
 gunicorn
 feedparser
 werkzeug
+openai
